@@ -37,7 +37,7 @@
                                 <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width:50%">
                                     Description
                                 </th>
                                 <th scope="col" class="max-w-1/5 relative px-6 py-3">

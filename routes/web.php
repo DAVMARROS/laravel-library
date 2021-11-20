@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Models\Role;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\{CategoryController, AuthorController};
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +27,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware' => ['auth:sanctum', "checkRole:{$admin}"]], function () {
     Route::resource('categories', CategoryController::class)->only(['index', 'show', 'destroy']);
+    Route::resource('authors', AuthorController::class)->only(['index', 'show', 'destroy']);
 });
