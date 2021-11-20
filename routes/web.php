@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckRole;
+use App\Models\Role;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+$admin = Role::ADMIN;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -20,3 +24,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::group(['middleware' => ['auth:sanctum', "checkRole:{$admin}"]], function () {
+    Route::resource('categories', CategoryController::class)->only(['index', 'show', 'destroy']);
+});

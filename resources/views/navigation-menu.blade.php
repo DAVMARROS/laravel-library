@@ -15,6 +15,17 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    @if(Auth::user()->role_id == App\Models\Role::ADMIN)
+                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Books') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
+                            {{ __('Categories') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Authors') }}
+                        </x-jet-nav-link>
+                    @endif
                 </div>
             </div>
 
