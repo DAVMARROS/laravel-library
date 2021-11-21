@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-jet-application-mark class="block h-9 w-auto" />
+                        <img class="block h-9 w-auto" src="{{ asset('img/Logo.png') }}" width="100" height="100">
                     </a>
                 </div>
 
@@ -19,7 +19,7 @@
                             {{ __('Books') }}
                         </x-jet-nav-link>
                     @if(Auth::check() &&  Auth::user()->role_id == App\Models\Role::ADMIN)
-                        <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
+                        <x-jet-nav-link href="{{ route('borrows.index') }}" :active="request()->routeIs('borrows.index')">
                             {{ __('Borrows') }}
                         </x-jet-nav-link>
                         <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
@@ -104,6 +104,18 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
+                {{ __('Books') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('borrows.index') }}" :active="request()->routeIs('borrows.index')">
+                {{ __('Borrows') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
+                {{ __('Categories') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('authors.index') }}" :active="request()->routeIs('authors.index')">
+                {{ __('Authors') }}
             </x-jet-responsive-nav-link>
         </div>
 

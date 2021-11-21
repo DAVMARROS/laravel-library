@@ -16,8 +16,7 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'name' => 'Bonilla Ramírez', 
-                'last_name'=>'Diana Carolina',
+                'name' => 'Diana Carolina Bonilla Ramírez', 
                 'email'=>'diana@twobits.com.mx',
                 'password' => password_hash("maniak.co", PASSWORD_DEFAULT),
                 'role_id' => 1

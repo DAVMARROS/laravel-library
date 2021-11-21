@@ -8,27 +8,29 @@
                     <label for="" class="block mt-3 text-2xl text-gray-700 text-center font-semibold">
                         Laravel Library
                     </label>
+
+                    <x-jet-validation-errors class="mb-4" />
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
-                    @csrf
+                        @csrf
                                         
                         <div>
-                            <input type="email" placeholder="E-mail" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
+                            <input type="email" name="email" placeholder="E-mail" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
                         </div>
             
                         <div class="mt-7">                
-                            <input type="password" placeholder="Password" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">                           
+                            <input type="password" name="password" placeholder="Password" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">                           
                         </div>
 
                         <div class="mt-7 flex">
-                            <label for="remember_me" class="inline-flex items-center w-full cursor-pointer">
-                                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                                <span class="ml-2 text-sm text-gray-600">
-                                    Remember me
-                                </span>
-                            </label>
             
                             <div class="w-full text-right">     
-                                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
+                                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="/forgot-password">
                                     Forgot your password?
                                 </a>                                  
                             </div>
@@ -50,6 +52,5 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </x-guest-layout>
