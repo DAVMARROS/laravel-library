@@ -16,12 +16,11 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("code");
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('authors');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->boolean('available');
+            $table->boolean('available')->default(1);
             $table->date('publicated_at');
             $table->timestamps();
             $table->softDeletes();

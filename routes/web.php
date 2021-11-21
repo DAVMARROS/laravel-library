@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Models\Role;
-use App\Http\Controllers\{CategoryController, AuthorController};
+use App\Http\Controllers\{CategoryController, AuthorController, BookController};
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +18,21 @@ use App\Http\Controllers\{CategoryController, AuthorController};
 $admin = Role::ADMIN;
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('/dashboard');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::resource('books', BookController::class)->only(['index', 'show']);
+
+Route::group(['middleware' => ['auth:sanctum', "checkRole:{$admin}"]], function () {
+    Route::post('/books/request', [BookController::class, 'request'])->name('book.request');
+});
 
 Route::group(['middleware' => ['auth:sanctum', "checkRole:{$admin}"]], function () {
     Route::resource('categories', CategoryController::class)->only(['index', 'show', 'destroy']);
     Route::resource('authors', AuthorController::class)->only(['index', 'show', 'destroy']);
+    Route::resource('books', BookController::class)->only(['destroy']);
 });
