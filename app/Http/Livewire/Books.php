@@ -12,8 +12,10 @@ class Books extends Component
 {
     use WithPagination;
 
+    public $categoryId = null;
+    public $authorId = null;
     public $search = "";
-    public $showByPage = 10;
+    public $showByPage = 5;
     public $triggerModal = false;
     public $edit = false;
     public $clear = false;
@@ -64,8 +66,20 @@ class Books extends Component
      */
     public function render()
     {
-        $books = Book::where('name','like', '%'.$this->search.'%')
-        ->orderBy('name')->paginate($this->showByPage);
+        $books = Book::where(function ($query){
+            $query->where('name','like', '%'.$this->search.'%')->orWhereHas('category', function ($query2){
+                $query2->where('name', 'like', '%'.$this->search.'%');
+            })->orWhereHas('author', function ($query2) {
+                $query2->where('name', 'like', '%'.$this->search.'%');
+            });
+        });
+        if($this->categoryId){
+            $books = $books->where('category_id',$this->categoryId);
+        }
+        if($this->authorId){
+            $books = $books->where('author_id',$this->authorId);
+        }
+        $books = $books->orderBy('name')->paginate($this->showByPage);
         return view('livewire.books', compact('books'));
     }
 
@@ -89,7 +103,15 @@ class Books extends Component
             $this->selectedBook = null;
             $this->name = "";
             $this->category = "";
+            if($this->categoryId){
+                $category = Category::find($this->categoryId);
+                $this->category = $category->name;
+            }
             $this->author = "";
+            if($this->authorId){
+                $author = Author::find($this->authorId);
+                $this->author = $author->name;
+            }
             $this->publicated_at = "";
             $this->edit = false;
         }
@@ -128,14 +150,13 @@ class Books extends Component
     }
 
     /**
-     * Funcion para mostrar los resultados del autocompletado
+     * Function to show autocomplete results
      * 
      * @param String $name
      * @param  int  $type
-     * @param  optional int  $index
      * @return  void
      */
-    public function autocomplete($name, $type, $index = null){
+    public function autocomplete($name, $type){
         $this->resetArrays();
         $name = trim($name);
         switch($type){
@@ -163,11 +184,10 @@ class Books extends Component
     }
 
     /**
-     * Funcion para llenar el campo del autocompletado
+     * Function to set autocomplete input
      * 
      * @param String $name
      * @param  int  $type
-     * @param  optional int  $index
      * @return  void
      */
     public function setInput($name, $type){

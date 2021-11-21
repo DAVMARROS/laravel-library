@@ -45,27 +45,34 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($categories as $category)
-                            <tr>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">{{$category->name}}</div>
-                                </td>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">{{$category->description}}</div>
-                                </td>
-                                <td class="w-auto px-6 py-4 text-right text-sm font-medium">
-                                    <div class="">
-                                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
-                                        wire:click="openModal({{$category->id}})">
-                                        <i class="fas fa-edit" style="margin-right:10px"></i>Edit</button>
-                                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
-                                        wire:click="$emit('triggerDelete',{{ $category->id }})">
-                                        <i class="fas fa-trash-alt" style="margin-right:10px"></i>Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-
+                            @if(count($categories))
+                                @foreach($categories as $category)
+                                <tr>
+                                    <td class="w-auto px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{$category->name}}</div>
+                                    </td>
+                                    <td class="w-auto px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{$category->description}}</div>
+                                    </td>
+                                    <td class="w-auto px-6 py-4 text-right text-sm font-medium">
+                                        <div class="">
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
+                                            wire:click="openModal({{$category->id}})">
+                                            <i class="fas fa-edit" style="margin-right:10px"></i>Edit</button>
+                                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
+                                            wire:click="$emit('triggerDelete',{{ $category->id }})">
+                                            <i class="fas fa-trash-alt" style="margin-right:10px"></i>Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="3" class="w-auto px-6 py-4">
+                                        <div class="text-gray-900 text-center font-bold">No data to display</div>
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                     <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">

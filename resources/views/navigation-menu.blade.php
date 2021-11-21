@@ -13,11 +13,11 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Home') }}
                     </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
-                            {{ __('Books') }}
-                        </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
+                        {{ __('Books') }}
+                    </x-jet-nav-link>
                     @if(Auth::check() &&  Auth::user()->role_id == App\Models\Role::ADMIN)
                         <x-jet-nav-link href="{{ route('borrows.index') }}" :active="request()->routeIs('borrows.index')">
                             {{ __('Borrows') }}
@@ -103,20 +103,22 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Home') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                 {{ __('Books') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('borrows.index') }}" :active="request()->routeIs('borrows.index')">
-                {{ __('Borrows') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
-                {{ __('Categories') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('authors.index') }}" :active="request()->routeIs('authors.index')">
-                {{ __('Authors') }}
-            </x-jet-responsive-nav-link>
+            @if(Auth::check() &&  Auth::user()->role_id == App\Models\Role::ADMIN)
+                <x-jet-responsive-nav-link href="{{ route('borrows.index') }}" :active="request()->routeIs('borrows.index')">
+                    {{ __('Borrows') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
+                    {{ __('Categories') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('authors.index') }}" :active="request()->routeIs('authors.index')">
+                    {{ __('Authors') }}
+                </x-jet-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -37,4 +37,5 @@ Route::group(['middleware' => ['auth:sanctum', "checkRole:{$admin}"]], function 
     Route::resource('categories', CategoryController::class)->only(['index', 'destroy']);
     Route::resource('authors', AuthorController::class)->only(['index', 'destroy']);
     Route::resource('books', BookController::class)->only(['destroy']);
+    Route::resource('borrows', BorrowController::class)->only(['index']);
 });

@@ -20,17 +20,6 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -61,8 +50,7 @@ class BookController extends Controller
             if(!$book){
                 return response()->error("Book not found.");
             }
-            logger()->info($book);
-            $borrows = $user->books()->whereIn('status', [Status::REQUESTED, Status::BORRORED, Status::EXPIRED])->count();
+            $borrows = $user->books()->whereIn('status', [Status::REQUESTED, Status::BORROWED, Status::EXPIRED])->count();
             if($borrows >= 3){
                 return response()->json(['status' => 'error', 'message' => "You can't borrow a book. You exced the limit."]);
             }

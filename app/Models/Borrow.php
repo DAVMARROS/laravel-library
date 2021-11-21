@@ -11,11 +11,18 @@ class Borrow extends Model
 
     protected $table = 'user_books';
 
+    protected $fillable = [
+        'id', 'book_id', 'user_id', 'expired_at', 'status'
+    ];
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function book() {
         return $this->belongsTo(Book::class);
     }
 
-    public function status() {
+    public function statusObj() {
         return $this->belongsTo(Status::class, 'status');
     }
 

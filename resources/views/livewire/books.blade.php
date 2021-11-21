@@ -13,10 +13,10 @@
                 <div class="relative w-18">
                     <select wire:model = "showByPage"
                         class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        <option>5</option>
                         <option>10</option>
                         <option>25</option>
                         <option>50</option>
-                        <option>100</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     </div>
@@ -46,54 +46,83 @@
                                     Author
                                 </th>
                                 <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Publication date
+                                </th>
+                                <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Available
                                 </th>
+                                @if(Auth::check() && Auth::user()->role_id == 1)
+                                    <th scope="col" class="max-w-1/5 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        User
+                                    </th>
+                                @endif
                                 <th scope="col" class="max-w-1/5 relative px-6 py-3">
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($books as $book)
-                            <tr>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">{{$book->name}}</div>
-                                </td>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">{{$book->category->name}}</div>
-                                </td>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">{{$book->author->name}}</div>
-                                </td>
-                                <td class="w-auto px-6 py-4">
-                                    <div class="text-sm text-gray-900">
-                                        @if ($book->available)
-                                            <i class="fas fa-check"></i>                                     
-                                        @else
-                                            <i class="fas fa-times"></i>
-                                        @endif
-                                    </div>
-                                </td>
-                                @if(Auth::check())
-                                    <td class="w-auto px-6 py-4 text-right text-sm font-medium">
-                                        <div class="">
-                                            @if(Auth::user()->role_id == 1)
-                                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
-                                                wire:click="openModal({{$book->id}})">
-                                                <i class="fas fa-edit" style="margin-right:10px"></i>Edit</button>
-                                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
-                                                wire:click="$emit('triggerDelete',{{ $book->id }})">
-                                                <i class="fas fa-trash-alt" style="margin-right:10px"></i>Delete</button>
-                                            @elseif(Auth::user()->role_id == 2 && $book->available)
-                                                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
-                                                wire:click="$emit('triggerBorrow',{{ $book->id }})">
-                                                <i class="fas fa-book" style="margin-right:10px"></i>Borrow</button>
+                            @if(count($books))
+                                @foreach($books as $book)
+                                <tr>
+                                    <td class="w-auto px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{$book->name}}</div>
+                                    </td>
+                                    <td class="w-auto px-6 py-4">
+                                        <a href="{{ route('categories.show', ['category' => $book->category_id]) }}">
+                                            <div class="text-sm text-blue underline">{{$book->category->name}}</div>
+                                        </a>
+                                    </td>
+                                    <td class="w-auto px-6 py-4">
+                                        <a href="{{ route('authors.show', ['author' => $book->author_id]) }}">
+                                            <div class="text-sm text-blue underline">{{$book->author->name}}</div>
+                                        </a>
+                                    </td>
+                                    <td class="w-auto px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{$book->publicated_at}}</div>
+                                    </td>
+                                    <td class="w-auto px-6 py-4">
+                                        <div class="text-sm text-gray-900">
+                                            @if ($book->available)
+                                                <i class="fas fa-check"></i>                                     
+                                            @else
+                                                <i class="fas fa-times"></i>
                                             @endif
                                         </div>
                                     </td>
-                                @endif
-                            </tr>
-                            @endforeach
-
+                                    @if(Auth::check() && Auth::user()->role_id == 1)
+                                        <td class="w-auto px-6 py-4">
+                                            <div class="text-sm text-gray-900">
+                                                {{$book->users()->latest()->whereIn('status',[1,2,5])->first() ? $book->users()->latest()->first()->name : 'N/A'}}
+                                            </div>
+                                        </td>
+                                    @endif
+                                    @if(Auth::check())
+                                        <td class="w-auto px-6 py-4 text-right text-sm font-medium">
+                                            <div class="">
+                                                @if(Auth::user()->role_id == 1)
+                                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
+                                                    wire:click="openModal({{$book->id}})">
+                                                    <i class="fas fa-edit" style="margin-right:10px"></i>Edit</button>
+                                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
+                                                    wire:click="$emit('triggerDelete',{{ $book->id }})">
+                                                    <i class="fas fa-trash-alt" style="margin-right:10px"></i>Delete</button>
+                                                @elseif(Auth::user()->role_id == 2 && $book->available)
+                                                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" style="margin-right:20px;margin-bottom:5px;" 
+                                                    wire:click="$emit('triggerBorrow',{{ $book->id }})">
+                                                    <i class="fas fa-book" style="margin-right:10px"></i>Borrow</button>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="w-auto px-6 py-4">
+                                        <div class="text-gray-900 text-center font-bold">No data to display</div>
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                     <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
@@ -116,7 +145,7 @@
                     <x-jet-label for="category" class="font-bold" value="{{ __('Category') }}" />
                     <x-jet-input id="category" class="block mt-1 w-full" type="text" wire:model="category" required autocomplete="off"
                     wire:keydown.tab="$set('clear',1)" wire:keydown.debounce.100ms="autocomplete($event.target.value,1)" onfocusout="clearInputs()"/>
-                    @if(count($resultCategories))
+                        @if(count($resultCategories))
                             <div class="w-3/4 flex flex-col" style="position: absolute;z-index: 200; background-color: white; overflow-y: auto; max-height: 48%;">
                             @foreach($resultCategories as $result)
                                 <div class="cursor-pointer rounded-t border hover:bg-gray-100" wire:click="setInput('{{$result->name}}',1)">
