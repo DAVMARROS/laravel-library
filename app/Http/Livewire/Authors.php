@@ -11,7 +11,7 @@ class Authors extends Component
     use WithPagination;
 
     public $search = "";
-    public $showByPage = 10;
+    public $showByPage = 5;
     public $triggerModal = false;
     public $edit = false;
     public $selectedAuthor = null;

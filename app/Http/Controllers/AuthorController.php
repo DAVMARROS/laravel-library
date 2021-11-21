@@ -25,7 +25,11 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        //
+        $author = Author::find($id);
+        if(!$author){
+            return redirect("/dashboard");
+        }
+        return view('authors.show', compact('author'));
     }
 
     /**

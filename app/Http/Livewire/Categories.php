@@ -11,7 +11,7 @@ class Categories extends Component
     use WithPagination;
 
     public $search = "";
-    public $showByPage = 10;
+    public $showByPage = 5;
     public $triggerModal = false;
     public $edit = false;
     public $selectedCategory = null;
@@ -52,7 +52,7 @@ class Categories extends Component
     public function render()
     {
         $categories = Category::where('name','like', '%'.$this->search.'%')
-        ->orderBy('name')->paginate($this->showByPage);
+        ->orWhere('description','like', '%'.$this->search.'%')->orderBy('name')->paginate($this->showByPage);
         return view('livewire.categories', compact('categories'));
     }
 

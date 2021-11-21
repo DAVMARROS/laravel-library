@@ -12,7 +12,7 @@ class Status extends Model
     protected $table = 'status_catalog';
 
     const REQUESTED = 1;
-    const BORRORED = 2;
+    const BORROWED = 2;
     const NOT_BORROWED = 3;
     const RETURNED = 4;
     const EXPIRED = 5;
