@@ -48,7 +48,7 @@ DB_PASSWORD=
 MAIL_DRIVER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
-MAIL_USERNAME=drosales2612@gmail.com
+MAIL_USERNAME=example@gmail.com
 MAIL_PASSWORD="Application password"
 MAIL_ENCRYPTION=tls
 ```
